@@ -1,13 +1,17 @@
-// 找到当前最小元素，加入到最前面
+import assert from 'assert';
 
 function selectionSort(arr: number[]): number[] {
   if (arr.length <= 1) return arr;
 
   for (let i = 0; i < arr.length - 1; i++) {
-    let minIndex = 0;
-    for (let j = 0; j < arr.length - 1 - i; j++) {
-      arr[j] < arr[j + 1] ? (minIndex = j) : (minIndex = j + 1);
+    let minIndex = i;
+    
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[j] <= arr[minIndex]) {
+        minIndex = j;
+      }
     }
+
     let temp = arr[i];
     arr[i] = arr[minIndex];
     arr[minIndex] = temp;
@@ -16,9 +20,18 @@ function selectionSort(arr: number[]): number[] {
   return arr;
 }
 
-console.log(selectionSort([3, 2, 5, 2, 0]));
-
-// 错误了，
-// 1. minIndex 应该设置为i
-// 2. 内部查询最小值，应该从i+1开始，不是0
-// 3. 不是前后比较得到最小index，是当前位置 i+1，和当前最小值 minIndex。
+try {
+  assert.deepStrictEqual(selectionSort([5, 3, 8, 4, 2]), [2, 3, 4, 5, 8]);
+  assert.deepStrictEqual(selectionSort([10, -1, 2, 5, 0, 6]), [-1, 0, 2, 5, 6, 10]);
+  assert.deepStrictEqual(selectionSort([1]), [1]);
+  assert.deepStrictEqual(selectionSort([]), []);
+  assert.deepStrictEqual(selectionSort([5, 3, 8, 4, 2, 3]), [2, 3, 3, 4, 5, 8]);
+  assert.deepStrictEqual(selectionSort([2, 2, 2]), [2, 2, 2]);
+  console.log("All tests passed!");
+} catch (error) {
+  if (error instanceof Error) {
+    console.error("A test failed:", error.message);
+  } else {
+    console.error("An unknown error occurred");
+  }
+}
