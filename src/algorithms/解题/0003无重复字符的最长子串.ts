@@ -1,36 +1,29 @@
 function lengthOfLongestSubstring(s: string): number {
+  if (s.length <= 1) return s.length;
+
   let result = 0;
   let map = new Map();
   let left = 0;
 
   for (let i = 0; i < s.length; i++) {
-    if (!map.has(s[i])) {
+    if (map.has(s[i])) {
       result = Math.max(result, i - left);
-      map.set(s[i], i);
-    } else {
-      result = Math.max(result, i - left);
-      left = map.get(s[i]) + 1;
-      map.set(s[i], i);
+      left = Math.max(left, map.get(s[i]) + 1);
     }
-  }
-  return result;
+    map.set(s[i], i);
+  };
+
+  return Math.max(result, s.length - left);
 }
 
-console.log(lengthOfLongestSubstring("pwwkew"));
+console.log(lengthOfLongestSubstring("abcdeaf"));
 
 /*
+判断最大值的逻辑容易搞混
 
-思路逻辑：
-之前的缺陷： eabdcazxw，碰到重复a，直接舍去了第二个a前面的所以字符，得到azxw，❌
+当中间有相同的字符时：
+末尾多了一个重复值，此时字符串的长度为 right - left + 1，但是我们得去除掉这个重复值，right - left + 1 - 1；
 
-我们应该舍去第一个a， 前面的字符 ea
-
-如何知道第一个a的位置，我们存入 map 中。map.set(s[i], i), key 为该字符，value为该字符的索引
-
-引入 left 从而得到最大值
-当遇到一样的字符，得到left的值，为当前重复字符的next索引eabdcazxw，left -> b， map(s[i])+1
-
-因为left移动最大值会减小，在此之前，我们得更新判断一下最大值
-
-返回时再判断一次最后的最大值。
+当结束时：
+我们得此时字符串长度为 right - left + 1，我们就是要这个长度，判断这个长度是否时新的最大值。
 */
