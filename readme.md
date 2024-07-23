@@ -5,3 +5,6 @@
 使用前确保你安装了全局的 typescript，type-node 以及 vscode。
 
 使用 vscode 的调试调试工具调试，在不同文件下，按 F5 运行调试。
+
+## 参考连接
+[JavaScript Algorithms and Data Structures](https://github.com/trekhleb/javascript-algorithms)
